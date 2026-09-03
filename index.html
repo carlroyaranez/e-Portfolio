@@ -193,7 +193,7 @@
             </section>
 
             <br>
-            <h1 class="header">Achievements</h1>
+            <h1 class="header">Achievements & Certifications</h1>
             <br>
 
             <section id="achievements" class="achievements reveal">
@@ -221,6 +221,19 @@
                     target="_blank" class="read-more-btn">
                         Read Full Article <i class="fa-solid fa-arrow-right"></i>
                     </a>
+                </div>
+            </div>
+
+            <div class="achievement-card certificate-card">
+                <button type="button" class="certificate-preview" onclick="openCertificateModal()" aria-label="Expand Cisco Introduction to Data Science certificate">
+                    <img src="assets/Cisco_IntroToDataScience.png" alt="Cisco Introduction to Data Science certificate" class="certificate-image">
+                </button>
+                <div class="achievement-details">
+                    <h2>Introduction to Data Science</h2>
+                    <h3>Cisco Networking Academy</h3>
+                    <p class="achievement-description">
+                        Completed Cisco Networking Academy's Introduction to Data Science course, building foundational knowledge of data science concepts and their practical applications.
+                    </p>
                 </div>
             </div>
             </section>
@@ -263,8 +276,16 @@
             </div>
         </div>
 
+        <div id="certificateModal" class="modal-overlay hidden" aria-hidden="true" onclick="closeCertificateModal()">
+            <div class="certificate-modal-content" onclick="event.stopPropagation();">
+                <button class="modal-close" type="button" onclick="closeCertificateModal()" aria-label="Close certificate preview">&times;</button>
+                <img src="assets/Cisco_IntroToDataScience.png" alt="Cisco Introduction to Data Science certificate" class="certificate-modal-image">
+            </div>
+        </div>
+
 <script>
     const emailModal = document.getElementById('emailModal');
+    const certificateModal = document.getElementById('certificateModal');
     const copySuccess = document.getElementById('copySuccess');
 
     function openEmailModal() {
@@ -285,6 +306,20 @@
         emailModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
+    }
+
+    function openCertificateModal() {
+        if (!certificateModal) return;
+        certificateModal.classList.remove('hidden');
+        certificateModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCertificateModal() {
+        if (!certificateModal) return;
+        certificateModal.classList.add('hidden');
+        certificateModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
     }
 
     async function copyEmail() {
@@ -313,8 +348,13 @@
     }
 
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && emailModal && !emailModal.classList.contains('hidden')) {
-            closeEmailModal();
+        if (event.key === 'Escape') {
+            if (emailModal && !emailModal.classList.contains('hidden')) {
+                closeEmailModal();
+            }
+            if (certificateModal && !certificateModal.classList.contains('hidden')) {
+                closeCertificateModal();
+            }
         }
     });
 
@@ -1295,6 +1335,49 @@ main .projects {
     box-shadow: 0 0 20px rgba(238, 223, 122, 0.4);
 }
 
+.certificate-image {
+    width: 240px;
+    height: auto;
+    border: 1px solid rgba(238, 223, 122, 0.25);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    display: block;
+}
+
+.certificate-preview {
+    align-self: flex-start;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 10px;
+    cursor: zoom-in;
+}
+
+.certificate-preview:focus-visible {
+    outline: 3px solid var(--tertiary-color);
+    outline-offset: 4px;
+}
+
+.certificate-preview:hover .certificate-image {
+    transform: scale(1.03);
+}
+
+.certificate-modal-content {
+    position: relative;
+    max-width: min(90vw, 1200px);
+    max-height: 90vh;
+}
+
+.certificate-modal-image {
+    display: block;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+}
+
 .achievement-details {
     flex: 1;
     position: relative;
@@ -1508,6 +1591,14 @@ main .projects {
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    .certificate-image {
+        max-width: 100%;
+    }
+
+    .certificate-preview {
+        align-self: center;
     }
     
     .achievement-details h2::before {
